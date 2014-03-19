@@ -1,0 +1,67 @@
+<html>
+	<head>
+	<link rel="stylesheet" href="style.css" />
+	
+	<script type="text/template" id="tmpltask">
+		<li><div><%-name%></div><input type="checkbox" <%-done==true?"checked": ""%> /><a href="#show/<%-id%>">View</a></li>
+	</script>
+
+	<script type="text/javascript" src="js/vendor/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="js/vendor/underscore/underscore.js"></script>
+	<script type="text/javascript" src="js/vendor/backbone/backbone.js"></script>
+
+	<script type="text/javascript" src="js/views/taskview.js"></script>
+	<script type="text/javascript" src="js/views/tasksview.js"></script>
+
+	<script type="text/javascript" src="js/models/task.js"></script>
+	<script type="text/javascript" src="js/models/tasks.js"></script>
+
+	<script type="text/javascript" src="js/router.js"></script>
+
+	</head>
+	<body>
+	
+	<div id="container"></div>
+		
+	<script type="text/javascript">
+		var tasks = new Tasks([
+			{name: "comprar yerba"},
+			{name: "llamar a la tía"},
+			{name: "hablar con Roger"},
+			{name: "hacer la vertical"}		
+		]);
+
+		var router = new Router();
+		
+		var tasksview = new TasksView({collection: tasks});
+
+		router.on("route:index", function(){			
+			$("#container").empty();
+		});
+		
+		router.on("route:list", function(){			
+			$("#container").empty().html(tasksview.render().el).show();		
+		});
+		
+		router.on("route:show", function(id){			
+			$("#container").empty().html(new TaskView({model: tasks.get(id)}).render().el).show();
+		});
+	
+	
+		Backbone.history.start();
+	</script>
+	
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
